@@ -16,6 +16,8 @@ hs_err_pid*
 out
 jars
 /bin
+/lib
+build.xml
 
 .classpath
 .project

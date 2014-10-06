@@ -5,6 +5,12 @@ package ru.fizteh.fivt.students.akhtyamovpavel.filemap;
  */
 public class FileMapMain {
     public static void main(String[] args) {
+        DataBaseShell shell = new DataBaseShell();
 
+        if (args.length == 0) {
+            shell.startInteractiveMode();
+        } else {
+            shell.startPacketMode(args);
+        }
     }
 }

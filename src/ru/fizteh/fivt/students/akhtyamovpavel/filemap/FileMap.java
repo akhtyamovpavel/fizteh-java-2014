@@ -25,15 +25,20 @@ public class FileMap extends HashMap<String, String> {
             while (inputStream.available() > 0) {
                 int keyLength = inputStream.readInt();
                 byte[] keyByteFormat = new byte[keyLength];
-                inputStream.read(keyByteFormat, 0, keyLength);
+                int readKeyBytes = inputStream.read(keyByteFormat, 0, keyLength);
+                if (readKeyBytes < keyByteFormat.length) {
+                    throw new Exception("read from database failed");
+                }
                 int valueLength = inputStream.readInt();
                 byte[] valueByteFormat = new byte[valueLength];
-                inputStream.read(valueByteFormat, 0, valueLength);
-
+                int readBytes = inputStream.read(valueByteFormat, 0, valueLength);
+                if (readBytes < valueByteFormat.length) {
+                    throw new Exception("read from database failed");
+                }
                 put(new String(keyByteFormat, "UTF-8"), new String(valueByteFormat, "UTF-8"));
             }
         } catch (IOException ioe) {
-            throw new Exception("database: read from database failed");
+            throw new Exception("read from database failed");
         }
     }
 
@@ -48,7 +53,7 @@ public class FileMap extends HashMap<String, String> {
                 outputStream.write(value);
             }
         } catch (IOException e) {
-            throw new Exception("database: writing to database failed");
+            throw new Exception("writing to database failed");
         }
     }
 

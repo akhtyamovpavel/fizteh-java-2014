@@ -1,9 +1,6 @@
 package ru.fizteh.fivt.students.akhtyamovpavel.filemap;
 
-import ru.fizteh.fivt.students.akhtyamovpavel.filemap.commands.Command;
-import ru.fizteh.fivt.students.akhtyamovpavel.filemap.commands.ExitCommand;
-import ru.fizteh.fivt.students.akhtyamovpavel.filemap.commands.GetCommand;
-import ru.fizteh.fivt.students.akhtyamovpavel.filemap.commands.PutCommand;
+import ru.fizteh.fivt.students.akhtyamovpavel.filemap.commands.*;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -40,6 +37,7 @@ public class DataBaseShell extends AbstractShell implements AutoCloseable {
         addCommand(new ExitCommand(this));
         addCommand(new PutCommand(fileMap));
         addCommand(new GetCommand(fileMap));
+        addCommand(new RemoveCommand(fileMap));
     }
 
     private void open() throws Exception {

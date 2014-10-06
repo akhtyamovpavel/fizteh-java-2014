@@ -7,30 +7,26 @@ import java.util.ArrayList;
 /**
  * Created by user1 on 06.10.2014.
  */
-public class GetCommand implements Command {
+public class ListCommand implements Command{
     private FileMap fileMap;
 
-    public GetCommand(FileMap link) {
+    public ListCommand(FileMap link) {
         fileMap = link;
     }
 
     @Override
     public void executeCommand(ArrayList<String> arguments) throws Exception {
-        if (arguments.size() != 1) {
-            throw new Exception("usage: get key");
+        if (!arguments.isEmpty()) {
+            throw new Exception("usage: list");
         }
-
-        if (fileMap.containsKey(arguments.get(0))) {
-            System.out.println("found");
-            System.out.println(fileMap.get(arguments.get(0)));
-        } else {
-            System.out.println("not found");
+        for (String currentKey: fileMap.keySet()) {
+            System.out.print(currentKey + " ");
         }
-
+        System.out.println();
     }
 
     @Override
     public String getName() {
-        return "get";
+        return "list";
     }
 }

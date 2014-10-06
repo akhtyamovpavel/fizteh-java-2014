@@ -38,6 +38,7 @@ public class DataBaseShell extends AbstractShell implements AutoCloseable {
         addCommand(new PutCommand(fileMap));
         addCommand(new GetCommand(fileMap));
         addCommand(new RemoveCommand(fileMap));
+        addCommand(new ListCommand(fileMap));
     }
 
     private void open() throws Exception {

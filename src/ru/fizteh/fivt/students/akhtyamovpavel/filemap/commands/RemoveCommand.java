@@ -16,7 +16,7 @@ public class RemoveCommand implements Command {
     @Override
     public void executeCommand(ArrayList<String> arguments) throws Exception {
         if (arguments.size() != 1) {
-            throw new Exception("usage key");
+            throw new Exception("usage: remove key");
         }
         if (fileMap.containsKey(arguments.get(0))) {
             fileMap.remove(arguments.get(0));

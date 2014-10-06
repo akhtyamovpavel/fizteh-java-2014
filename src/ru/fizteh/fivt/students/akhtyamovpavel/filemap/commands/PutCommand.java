@@ -16,7 +16,7 @@ public class PutCommand implements Command {
     @Override
     public void executeCommand(ArrayList<String> arguments) throws Exception {
         if (arguments.size() != 2) {
-            throw new Exception("usage key value");
+            throw new Exception("usage: put key value");
         }
         if (map.containsKey(arguments.get(0))) {
             System.out.println("overwrite");

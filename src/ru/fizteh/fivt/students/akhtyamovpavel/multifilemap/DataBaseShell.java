@@ -1,8 +1,8 @@
 package ru.fizteh.fivt.students.akhtyamovpavel.multifilemap;
 
 
-
 import ru.fizteh.fivt.students.akhtyamovpavel.multifilemap.commands.Command;
+import ru.fizteh.fivt.students.akhtyamovpavel.multifilemap.commands.table.CreateTableCommand;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -38,6 +38,7 @@ public class DataBaseShell extends AbstractShell implements AutoCloseable {
 
     private void initCommands() {
         commandNames = new HashMap<String, Command>();
+        addCommand(new CreateTableCommand(this));
     }
 
     private void onLoadCheck() throws Exception {
@@ -56,7 +57,7 @@ public class DataBaseShell extends AbstractShell implements AutoCloseable {
 
         File currentFolder = dataBaseDirectory.toFile();
         String[] listOfFiles = currentFolder.list();
-        for (String name: listOfFiles) {
+        for (String name : listOfFiles) {
             Path newPath = Paths.get(dataBaseDirectory.toString(), name);
             if (!Files.isDirectory(newPath)) {
                 throw new Exception("connect: table " + name + " is extra");
@@ -79,5 +80,19 @@ public class DataBaseShell extends AbstractShell implements AutoCloseable {
     private void addCommand(Command command) {
         commandNames.put(command.getName(), command);
     }
+
+    public FileMap getFileMap() {
+        return fileMap;
+    }
+
+
+    public Path getDataBaseDirectory() {
+        return dataBaseDirectory;
+    }
+
+    public void setFileMap(FileMap fileMap) {
+        this.fileMap = fileMap;
+    }
+
 
 }

@@ -12,5 +12,4 @@ public interface Command {
 
     String getName();
 
-
 }

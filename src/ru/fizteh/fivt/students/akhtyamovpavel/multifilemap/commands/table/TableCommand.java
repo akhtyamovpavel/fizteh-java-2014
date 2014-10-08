@@ -11,7 +11,7 @@ import java.nio.file.Paths;
  * Created by user1 on 07.10.2014.
  */
 public abstract class TableCommand implements Command {
-    private DataBaseShell shell;
+    protected DataBaseShell shell;
     public static final boolean EXIST = true;
     public static final boolean NON_EXIST = false;
 

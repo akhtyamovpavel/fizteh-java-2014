@@ -26,6 +26,7 @@ public class CreateTableCommand extends TableCommand implements Command {
         }
 
         new MakeDirectoryCommand(getShell()).executeCommand(arguments);
+        System.out.println("created");
     }
 
     @Override

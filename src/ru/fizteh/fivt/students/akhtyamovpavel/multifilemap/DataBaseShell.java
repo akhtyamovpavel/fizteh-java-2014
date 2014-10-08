@@ -3,6 +3,7 @@ package ru.fizteh.fivt.students.akhtyamovpavel.multifilemap;
 
 import ru.fizteh.fivt.students.akhtyamovpavel.multifilemap.commands.Command;
 import ru.fizteh.fivt.students.akhtyamovpavel.multifilemap.commands.table.CreateTableCommand;
+import ru.fizteh.fivt.students.akhtyamovpavel.multifilemap.commands.table.DropTableCommand;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -11,14 +12,13 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 
 /**
- * Created by akhtyamovpavel on 30.09.2014.
+ * Created by akhtyamovpavel on 07.10.2014.
  */
 public class DataBaseShell extends AbstractShell implements AutoCloseable {
     private Path dataBaseDirectory;
     private boolean isInteractive;
-    private String openedTable;
+    private String openedTableName;
     private FileMap fileMap;
-
 
     public DataBaseShell() {
         initDataBaseDirectory();
@@ -38,7 +38,9 @@ public class DataBaseShell extends AbstractShell implements AutoCloseable {
 
     private void initCommands() {
         commandNames = new HashMap<String, Command>();
+
         addCommand(new CreateTableCommand(this));
+        addCommand(new DropTableCommand(this));
     }
 
     private void onLoadCheck() throws Exception {
@@ -85,7 +87,6 @@ public class DataBaseShell extends AbstractShell implements AutoCloseable {
         return fileMap;
     }
 
-
     public Path getDataBaseDirectory() {
         return dataBaseDirectory;
     }
@@ -94,5 +95,11 @@ public class DataBaseShell extends AbstractShell implements AutoCloseable {
         this.fileMap = fileMap;
     }
 
+    public String getOpenedTableName() {
+        return openedTableName;
+    }
 
+    public void setOpenedTableName(String openedTableName) {
+        this.openedTableName = openedTableName;
+    }
 }

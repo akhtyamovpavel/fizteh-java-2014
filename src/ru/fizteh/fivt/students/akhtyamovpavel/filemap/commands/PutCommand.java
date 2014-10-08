@@ -25,6 +25,7 @@ public class PutCommand implements Command {
             System.out.println("new");
         }
         map.put(arguments.get(0), arguments.get(1));
+        map.saveMap();
     }
 
     @Override

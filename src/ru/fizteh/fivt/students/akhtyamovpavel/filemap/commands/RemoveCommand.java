@@ -21,9 +21,11 @@ public class RemoveCommand implements Command {
         if (fileMap.containsKey(arguments.get(0))) {
             fileMap.remove(arguments.get(0));
             System.out.println("removed");
+            fileMap.saveMap();
         } else {
             System.out.println("not found");
         }
+
     }
 
     @Override

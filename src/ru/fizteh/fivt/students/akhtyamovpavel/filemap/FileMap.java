@@ -1,8 +1,6 @@
 package ru.fizteh.fivt.students.akhtyamovpavel.filemap;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
@@ -23,19 +21,7 @@ public class FileMap extends HashMap<String, String> {
             clear();
 
             while (inputStream.available() > 0) {
-                int keyLength = inputStream.readInt();
-                byte[] keyByteFormat = new byte[keyLength];
-                int readKeyBytes = inputStream.read(keyByteFormat, 0, keyLength);
-                if (readKeyBytes < keyByteFormat.length) {
-                    throw new Exception("read from database failed");
-                }
-                int valueLength = inputStream.readInt();
-                byte[] valueByteFormat = new byte[valueLength];
-                int readBytes = inputStream.read(valueByteFormat, 0, valueLength);
-                if (readBytes < valueByteFormat.length) {
-                    throw new Exception("read from database failed");
-                }
-                put(new String(keyByteFormat, "UTF-8"), new String(valueByteFormat, "UTF-8"));
+                put(readString(inputStream), readString(inputStream));
             }
         } catch (IOException ioe) {
             throw new Exception("read from database failed");
@@ -45,14 +31,36 @@ public class FileMap extends HashMap<String, String> {
     public void saveMap() throws Exception {
         try (DataOutputStream outputStream = new DataOutputStream(Files.newOutputStream(dataBasePath))) {
             for (Entry<String, String> entry : entrySet()) {
-                byte[] key = entry.getKey().getBytes("UTF-8");
-                byte[] value = entry.getValue().getBytes("UTF-8");
-                outputStream.writeInt(key.length);
-                outputStream.write(key);
-                outputStream.writeInt(value.length);
-                outputStream.write(value);
+                writeString(outputStream, entry.getKey());
+                writeString(outputStream, entry.getValue());
             }
         } catch (IOException e) {
+            throw new Exception("writing to database failed");
+        }
+    }
+
+    private String readString(final DataInputStream inputStream) throws Exception {
+        try {
+            int length = inputStream.readInt();
+            if (length <= 0) {
+                throw new Exception("read from database failed");
+            }
+            byte[] byteString = new byte[length];
+            inputStream.readFully(byteString);
+            return new String(byteString, "UTF-8");
+        } catch (EOFException eof) {
+            throw new Exception("read from database failed");
+        } catch (IOException ioe) {
+            throw new Exception("read from database failed");
+        }
+    }
+
+    private void writeString(final DataOutputStream outputStream, String string) throws Exception {
+        try {
+            byte[] stringByte = string.getBytes("UTF-8");
+            outputStream.writeInt(stringByte.length);
+            outputStream.write(stringByte);
+        } catch (IOException ioe) {
             throw new Exception("writing to database failed");
         }
     }

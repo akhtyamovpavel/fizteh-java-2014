@@ -19,10 +19,9 @@ public class ListCommand implements Command{
         if (!arguments.isEmpty()) {
             throw new Exception("usage: list");
         }
-        for (String currentKey: fileMap.keySet()) {
-            System.out.print(currentKey + " ");
-        }
-        System.out.println();
+        String result = new String();
+
+        System.out.println(String.join(", ", fileMap.keySet()));
     }
 
     @Override
